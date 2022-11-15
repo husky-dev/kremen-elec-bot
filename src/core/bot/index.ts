@@ -155,7 +155,7 @@ export const getBot = (botOpt: BotOpt) => {
     const dateStr = getDateStr(date);
     const todayHighSchedule = scheduleHigh[dateStr];
     if (!todayHighSchedule) return sendTextMsg(chat_id, `Нажаль дані відсутні 😕`);
-    const lines: string[] = [`🔴 Графік відключеннь ${groupToText(group)} групи на ${getDateUrkStr(date)}:`, ''];
+    const lines: string[] = [`🔴 *Графік відключень ${groupToText(group)} групи на ${getDateUrkStr(date)}:*`, ''];
     for (const scheduleItem of todayHighSchedule) {
       if (scheduleItem.group === group) {
         lines.push(`🕐 \`${scheduleItem.time}\``);
@@ -191,5 +191,25 @@ const getDateUrkStr = (d: Date) => {
   const year = d.getFullYear();
   const month = d.getMonth() + 1;
   const day = d.getDate();
-  return `${pad(day, 2)}.${pad(month, 2)}.${year}`;
+  return `${pad(day, 2)}.${pad(month, 2)}.${year} (${getDateUkrDayOfTheWeek(d)})`;
+};
+
+const getDateUkrDayOfTheWeek = (d: Date) => {
+  const day = d.getDay();
+  switch (day) {
+    case 0:
+      return 'Неділя';
+    case 1:
+      return 'Понеділок';
+    case 2:
+      return 'Вівторок';
+    case 3:
+      return 'Середа';
+    case 4:
+      return 'Четвер';
+    case 5:
+      return `П'ятниця`;
+    case 6:
+      return 'Субота';
+  }
 };
