@@ -1,0 +1,13 @@
+*.ejs
+*.png
+*.jpg
+*.json
+*.svg
+*.css
+*.scss
+*.md
+*.graphql
+*.js
+*.jsx
+*.html
+*.snap

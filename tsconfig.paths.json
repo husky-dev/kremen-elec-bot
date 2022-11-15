@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@config": ["src/config"],
+      "@config/*": ["src/config/*"],
+      "@core": ["src/core"],
+      "@core/*": ["src/core/*"],
+      "@functions": ["src/functions"],
+      "@functions/*": ["src/functions/*"],
+      "@mocks": ["src/mocks"],
+      "@mocks/*": ["src/mocks/*"],
+      "@utils": ["src/utils"],
+      "@utils/*": ["src/utils/*"]
+    }
+  }
+}
