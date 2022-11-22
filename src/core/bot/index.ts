@@ -6,9 +6,9 @@ import { ScheduleGroup, scheduleHigh } from './data';
 const log = Log('core.bot');
 
 /*
+today - Графік на сьогодні
+tomorrow - Графік на завтра
 start - Почати роботу
-today - Графік відключень на сьогодні
-tomorrow - Графік відключень на завтра
 help - Допомога
 */
 
@@ -16,16 +16,16 @@ const startText = `
 Привіт 👋
 Цей бот допоможе тобі швидко дізнатись графік відключень електроенергії на сьогодні.
 
-/today - Графік відключень на сьогодні
-/tomorrow - Графік відключень на завтра
+/today - Графік на сьогодні
+/tomorrow - Графік на завтра
 /help - Допомога
 
 [Дізнатись свою чергу](https://bit.ly/3DMEFUI)
 [Графік відключень на листопад](https://bit.ly/3fmXBQL)
 `;
 const helpText = `
-/today - Графік відключень на сьогодні
-/tomorrow - Графік відключень на завтра
+/today - Графік на сьогодні
+/tomorrow - Графік на завтра
 
 [Дізнатись свою чергу](https://bit.ly/3DMEFUI)
 [Графік відключень на листопад](https://bit.ly/3fmXBQL)
@@ -78,6 +78,10 @@ export const getBot = (botOpt: BotOpt) => {
                 text: '3я група',
                 callback_data: 'today_group_3',
               },
+              {
+                text: 'Всі групи',
+                callback_data: 'today_group_all',
+              },
             ],
           ],
         },
@@ -101,6 +105,10 @@ export const getBot = (botOpt: BotOpt) => {
               {
                 text: '3я група',
                 callback_data: 'tomorrow_group_3',
+              },
+              {
+                text: 'Всі групи',
+                callback_data: 'tomorrow_group_all',
               },
             ],
           ],
@@ -130,13 +138,18 @@ export const getBot = (botOpt: BotOpt) => {
     if (!data) return;
     const today = new Date();
     const tomorrow = new Date(today.getTime() + 86400000);
-    if (data === 'schedule_group_1' || data === 'today_group_1') {
+    if (data === 'today_group_1' || data === 'schedule_group_1') {
       await processScheduleCmd(query.from.id, today, 'group 1');
     }
-    if (data === 'schedule_group_2' || data === 'today_group_2') {
+    if (data === 'today_group_2' || data === 'schedule_group_2') {
       await processScheduleCmd(query.from.id, today, 'group 2');
     }
-    if (data === 'schedule_group_3' || data === 'today_group_3') {
+    if (data === 'today_group_3' || data === 'schedule_group_3') {
+      await processScheduleCmd(query.from.id, today, 'group 3');
+    }
+    if (data === 'today_group_all') {
+      await processScheduleCmd(query.from.id, today, 'group 1');
+      await processScheduleCmd(query.from.id, today, 'group 2');
       await processScheduleCmd(query.from.id, today, 'group 3');
     }
     if (data === 'tomorrow_group_1') {
@@ -146,6 +159,11 @@ export const getBot = (botOpt: BotOpt) => {
       await processScheduleCmd(query.from.id, tomorrow, 'group 2');
     }
     if (data === 'tomorrow_group_3') {
+      await processScheduleCmd(query.from.id, tomorrow, 'group 3');
+    }
+    if (data === 'tomorrow_group_all') {
+      await processScheduleCmd(query.from.id, tomorrow, 'group 1');
+      await processScheduleCmd(query.from.id, tomorrow, 'group 2');
       await processScheduleCmd(query.from.id, tomorrow, 'group 3');
     }
     await telegram.answerCallbackQuery({ callback_query_id: query.id });
